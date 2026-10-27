@@ -1,0 +1,16 @@
+# monitoring/grafana/provisioning/datasources/prometheus.yml
+#
+# Grafana reads this file at startup and automatically adds
+# Prometheus as a data source — no manual UI configuration needed.
+
+apiVersion: 1
+
+datasources:
+  - name: Prometheus
+    type: prometheus
+    access: proxy
+    url: http://prometheus:9090    # resolved via Docker network
+    isDefault: true
+    editable: true
+    jsonData:
+      timeInterval: "15s"

@@ -1,0 +1,34 @@
+# .dockerignore — files excluded from the Docker build context
+# Keeps the image small and avoids accidentally baking in secrets.
+
+# Python bytecode
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Test artefacts
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Editor / OS artefacts
+.git/
+.gitignore
+*.md
+docs/
+*.log
+
+# Monitoring configs are mounted via Compose, not baked in
+monitoring/
+
+# Traffic-generation scripts
+traffic/
+
+# The model is trained inside the Dockerfile, not copied from host
+model.pkl
