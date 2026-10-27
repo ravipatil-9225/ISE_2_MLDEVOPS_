@@ -1,0 +1,35 @@
+# monitoring/prometheus.yml — Prometheus scrape configuration
+#
+# Prometheus pulls metrics from the Flask app's /metrics endpoint
+# every 15 seconds. The iris-app service name is resolved via
+# Docker's internal DNS (because all services share the mlops-net network).
+
+global:
+  scrape_interval:     15s   # how often to scrape targets
+  evaluation_interval: 15s   # how often to evaluate alerting rules
+  scrape_timeout:      10s   # timeout per scrape
+
+  # Attach these labels to all time-series from this Prometheus instance
+  external_labels:
+    monitor: 'iris-predictor-monitor'
+    environment: 'lab'
+
+# ── Scrape jobs ────────────────────────────────────────────────────────────────
+scrape_configs:
+
+  # 1. Prometheus self-monitoring
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+        labels:
+          service: 'prometheus'
+
+  # 2. Flask Iris Prediction App
+  #    The container name "iris-app" resolves inside the Docker network.
+  - job_name: 'iris-predictor'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets: ['iris-app:5000']
+        labels:
+          service: 'iris-predictor'
+          team: 'mlops-lab'
