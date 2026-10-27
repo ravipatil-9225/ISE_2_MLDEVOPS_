@@ -55,7 +55,7 @@ def send_requests(base_url: str, n: int, delay: float) -> None:
     ok_count = error_count = 0
     class_counts: dict = {}
 
-    print(f"Sending {n} requests to {base_url}/predict …")
+    print(f"Sending {n} requests to {base_url}/predict ...")
 
     for i in range(1, n + 1):
         # Every 10th request is intentionally malformed → generates error metrics
@@ -85,7 +85,7 @@ def send_requests(base_url: str, n: int, delay: float) -> None:
 
         time.sleep(delay)
 
-    print("\n── Summary ────────────────────────────")
+    print("\n-- Summary ----------------------------")
     print(f"  Total    : {n}")
     print(f"  OK       : {ok_count}")
     print(f"  Errors   : {error_count}")

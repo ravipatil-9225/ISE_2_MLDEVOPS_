@@ -53,7 +53,7 @@ services:
     image: jenkins/jenkins:lts-jdk17
     container_name: jenkins
     ports:
-      - "8080:8080"      # Web UI
+      - "8085:8080"      # Web UI (8085 avoids conflict with local Windows Jenkins on 8080)
       - "50000:50000"    # JNLP agent port
     volumes:
       - jenkins_home:/var/jenkins_home

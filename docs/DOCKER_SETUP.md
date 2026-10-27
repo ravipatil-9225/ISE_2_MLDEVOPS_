@@ -74,7 +74,7 @@ docker ps
 
 # Service URLs:
 # http://localhost:5000  → Iris Predictor App
-# http://localhost:8080  → Jenkins CI/CD
+# http://localhost:8085  → Jenkins CI/CD
 # http://localhost:9090  → Prometheus
 # http://localhost:3000  → Grafana (admin / admin123)
 ```
@@ -85,12 +85,8 @@ docker ps
 
 After `docker compose up -d`:
 
-1. Go to http://localhost:8080
-2. Get the initial password:
-   ```powershell
-   docker exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword
-   ```
-3. Paste the password in the Jenkins setup wizard
+1. Go to http://localhost:8085 (Setup wizard is disabled via JAVA_OPTS, accessible directly)
+2. To install plugins: Go to Manage Jenkins → Plugins
 4. Click "Install suggested plugins"
 5. Also install these additional plugins:
    - **Git Plugin**

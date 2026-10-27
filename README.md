@@ -86,7 +86,7 @@ docker compose up -d
 | Service | URL | Credentials |
 |---------|-----|-------------|
 | Iris App | http://localhost:5000 | — |
-| Jenkins | http://localhost:8080 | admin / (see initial password) |
+| Jenkins | http://localhost:8085 | admin / (see initial password) |
 | Prometheus | http://localhost:9090 | — |
 | Grafana | http://localhost:3000 | admin / admin123 |
 

@@ -28,6 +28,14 @@ logger = logging.getLogger(__name__)
 # ── Flask app ──────────────────────────────────────────────────────────────────
 app = Flask(__name__)
 
+# ── Model Initialization ───────────────────────────────────────────────────────
+# Load model at import time so Gunicorn workers have the model ready immediately
+try:
+    load_model()
+except Exception as exc:
+    logger.warning("Model could not be loaded at startup: %s", exc)
+
+
 # ── Prometheus metrics ─────────────────────────────────────────────────────────
 # PrometheusMetrics automatically tracks:
 #   - http_request_duration_seconds (histogram → gives p50/p95/p99)

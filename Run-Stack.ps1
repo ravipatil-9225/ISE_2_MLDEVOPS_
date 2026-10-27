@@ -74,7 +74,7 @@ Write-Host "`n===================================" -ForegroundColor Cyan
 Write-Host " STACK IS RUNNING! Service URLs:   " -ForegroundColor Green
 Write-Host "===================================" -ForegroundColor Cyan
 Write-Host " App       → http://localhost:5000 " -ForegroundColor White
-Write-Host " Jenkins   → http://localhost:8080 " -ForegroundColor White
+Write-Host " Jenkins   → http://localhost:8085 " -ForegroundColor White
 Write-Host " Prometheus→ http://localhost:9090 " -ForegroundColor White
 Write-Host " Grafana   → http://localhost:3000 " -ForegroundColor White
 Write-Host "   (admin / admin123)              " -ForegroundColor Gray
@@ -83,8 +83,8 @@ Write-Host "===================================`n" -ForegroundColor Cyan
 Write-Host "Container status:" -ForegroundColor Yellow
 docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
 
-Write-Host "`nTo get Jenkins initial password:" -ForegroundColor Yellow
-Write-Host '  docker exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword'
+Write-Host "`nJenkins UI (Setup Wizard disabled, no initial password required):" -ForegroundColor Yellow
+Write-Host "  Open http://localhost:8085 in your browser"
 
 Write-Host "`nTo generate traffic for Grafana graphs:" -ForegroundColor Yellow
 Write-Host "  python traffic/generate_traffic.py --n 200 --url http://localhost:$APP_PORT"
