@@ -11,7 +11,7 @@
 #   docker compose down -v        # stop and remove volumes
 #   docker compose logs -f iris-app  # follow app logs
 
-version: "3.9"
+name: ise2mldevops
 
 networks:
   mlops-net:

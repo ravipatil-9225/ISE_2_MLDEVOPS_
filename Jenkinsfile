@@ -25,10 +25,11 @@ pipeline {
 
     // ── Environment variables ────────────────────────────────────────────────
     environment {
-        IMAGE_NAME   = "iris-predictor"
-        IMAGE_TAG    = "latest"
-        APP_PORT     = "5000"
-        COMPOSE_FILE = "docker-compose.yml"
+        IMAGE_NAME           = "iris-predictor"
+        IMAGE_TAG            = "latest"
+        APP_PORT             = "5000"
+        COMPOSE_FILE         = "docker-compose.yml"
+        COMPOSE_PROJECT_NAME = "ise2mldevops"
     }
 
     // ── Options ──────────────────────────────────────────────────────────────
@@ -76,8 +77,7 @@ pipeline {
                 echo "║  Stage 2: Install Python dependencies ║"
                 echo "╚══════════════════════════════════════╝"
                 sh '''
-                    python3 -m pip install --upgrade pip
-                    pip3 install -r requirements.txt
+                    pip3 install --break-system-packages -r requirements.txt || pip3 install -r requirements.txt
                     echo "Installed packages:"
                     pip3 list
                 '''
@@ -166,10 +166,8 @@ pipeline {
                 echo "║  Stage 7: Deploy with Docker Compose  ║"
                 echo "╚══════════════════════════════════════╝"
                 sh '''
-                    # Bring up (or update) the iris-app service only.
-                    # Jenkins and monitoring services may already be running.
-                    docker compose -f ${COMPOSE_FILE} up -d iris-app
-
+                    # Bring up (or update) the iris-app service only within the common compose project.
+                    docker compose -p ${COMPOSE_PROJECT_NAME} -f ${COMPOSE_FILE} up -d iris-app
                     echo "Running containers:"
                     docker ps --filter "name=iris-app"
                 '''
@@ -186,7 +184,7 @@ pipeline {
                     # Wait up to 30 s for the container to be healthy
                     MAX_WAIT=30
                     ELAPSED=0
-                    until curl -sf http://localhost:${APP_PORT}/health; do
+                    until curl -sf http://iris-app:${APP_PORT}/health || curl -sf http://localhost:${APP_PORT}/health || curl -sf http://host.docker.internal:${APP_PORT}/health; do
                         sleep 2
                         ELAPSED=$((ELAPSED+2))
                         if [ $ELAPSED -ge $MAX_WAIT ]; then
