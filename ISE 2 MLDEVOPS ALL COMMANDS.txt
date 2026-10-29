@@ -1,122 +1,105 @@
 1. Git & GitHub Commands
 
-# Check repository status and modified files
 git status
 
-# Check commit history
 git log --oneline -n 5
 
-# Stage all changes
 git add .
 
-# Commit your changes
 git commit -m "feat: update pipeline and application"
 
-# Push changes to GitHub (triggers Jenkins if webhook / poll SCM is configured)
 git push origin main
 
-# Pull latest changes from remote
 git pull origin main
 
-# View configured remote URLs
 git remote -v
+
+
+
+
 
 
 2. Local Python, Testing & Linting (Pytest)
 
-# 1. (Optional) Create and activate virtual environment
 
 python -m venv venv
 
-# On Windows PowerShell:
 
 .\venv\Scripts\Activate.ps1
 
 
-# 2. Install dependencies
 
 pip install -r requirements.txt
 
-# 3. Train the model (creates model.pkl)
 
 python train.py
 
-# 4. Run Pytest unit tests with verbose output
 
 pytest tests/ -v
 
-# 5. Run Pytest and generate JUnit XML report (same format Jenkins uses)
 
 pytest tests/ -v --tb=short --junitxml=test-results.xml
 
-# 6. Run Flake8 code quality linter
 
 flake8 app/ train.py tests/ --max-line-length=100
 
-# 7. Start the Flask application locally
 
 python -m app.app
 
-# Or run with Gunicorn (Linux / WSL / Docker):
-
-# gunicorn --bind 0.0.0.0:5000 --workers 2 app.app:app
 
 
 
 
-START DOCKER DESKTOP
+
+
+
+START DOCKER DESKTOP -
+
 
 Step 1: Test Docker Standalone (Build & Run the App)
-1. Build the Docker image:
 
 docker build -t iris-predictor:latest .
 
-2. Run the container:
 
 docker run -d -p 5000:5000 --name iris-app iris-predictor:latest
 
 
-3. Verify the container is running and healthy:
-
 docker ps
 
 
-4. Test the endpoints:
-
-# Health check
 curl http://localhost:5000/health
 
-# Test prediction endpoint
+
 curl -X POST http://localhost:5000/predict -H "Content-Type: application/json" -d '{\"sepal_length\":5.1,\"sepal_width\":3.5,\"petal_length\":1.4,\"petal_width\":0.2}'
 
-
-5. Stop and clean up the standalone container:
 
 docker stop iris-app
 docker rm iris-app
 
 
-Step 2: Test Docker Compose (Full Stack)
 
-1. Start all 4 services:
+
+
+
+
+Step 2: Test Docker Compose (Full Stack)
 
 docker compose up -d
 
-
-2. Check container statuses:
-
 docker compose ps
-
-
-3. Check application logs:
 
 docker compose logs -f iris-app
 
 
 
-Step 3: Test Jenkins CI/CD Pipeline
 
-1. Access Jenkins Web UI
+
+
+
+
+
+
+Step 3: Test Jenkins CI/CD Pipeline
 
 http://localhost:8085
 
@@ -140,6 +123,39 @@ Repository URL: https://github.com/ravipatil-9225/ISE2_MLDEVOPS.git
 Branch Specifier: */main
 
 Script Path: Jenkinsfile
+
+
+
+
+
+
+
+
+Step 4: Test Monitoring & Metrics Flow
+
+
+python traffic/generate_traffic.py --n 100 --url http://localhost:5000
+
+
+http://localhost:9090/targets
+
+
+http://localhost:3000
+
+
+
+
+
+
+
+
+
+Step 5: Stop the Environment (When Finished)
+
+docker compose down
+
+docker compose down -v
+
 
 
 
