@@ -186,3 +186,4 @@ python traffic/generate_traffic.py --n 200 --url http://localhost:5000
 
 - **CO1 (L2 — Understand):** Understand and explain CI/CD pipeline concepts, containerization, and monitoring.
 - **CO4 (L4 — Analyze):** Analyze and evaluate pipeline failures, monitoring data, and system health metrics.
+# ISE_2_MLDEVOPS_
